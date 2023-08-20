@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.project.dao.LocationMapper" >
+  <resultMap id="BaseResultMap" type="com.example.project.bean.Location" >
+    <id column="LocID" property="locid" jdbcType="INTEGER" />
+    <result column="Longtitude" property="longtitude" jdbcType="DECIMAL" />
+    <result column="Latitude" property="latitude" jdbcType="DECIMAL" />
+    <result column="District" property="district" jdbcType="VARCHAR" />
+    <result column="Street" property="street" jdbcType="VARCHAR" />
+    <result column="Detail" property="detail" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    LocID, Longtitude, Latitude, District, Street, Detail
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.example.project.bean.LocationExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from location
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from location
+    where LocID = #{locid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from location
+    where LocID = #{locid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.project.bean.LocationExample" >
+    delete from location
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.project.bean.Location" >
+    insert into location (LocID, Longtitude, Latitude, 
+      District, Street, Detail
+      )
+    values (#{locid,jdbcType=INTEGER}, #{longtitude,jdbcType=DECIMAL}, #{latitude,jdbcType=DECIMAL}, 
+      #{district,jdbcType=VARCHAR}, #{street,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.project.bean.Location" >
+    insert into location
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="locid != null" >
+        LocID,
+      </if>
+      <if test="longtitude != null" >
+        Longtitude,
+      </if>
+      <if test="latitude != null" >
+        Latitude,
+      </if>
+      <if test="district != null" >
+        District,
+      </if>
+      <if test="street != null" >
+        Street,
+      </if>
+      <if test="detail != null" >
+        Detail,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="locid != null" >
+        #{locid,jdbcType=INTEGER},
+      </if>
+      <if test="longtitude != null" >
+        #{longtitude,jdbcType=DECIMAL},
+      </if>
+      <if test="latitude != null" >
+        #{latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="district != null" >
+        #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="street != null" >
+        #{street,jdbcType=VARCHAR},
+      </if>
+      <if test="detail != null" >
+        #{detail,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.project.bean.LocationExample" resultType="java.lang.Integer" >
+    select count(*) from location
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update location
+    <set >
+      <if test="record.locid != null" >
+        LocID = #{record.locid,jdbcType=INTEGER},
+      </if>
+      <if test="record.longtitude != null" >
+        Longtitude = #{record.longtitude,jdbcType=DECIMAL},
+      </if>
+      <if test="record.latitude != null" >
+        Latitude = #{record.latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="record.district != null" >
+        District = #{record.district,jdbcType=VARCHAR},
+      </if>
+      <if test="record.street != null" >
+        Street = #{record.street,jdbcType=VARCHAR},
+      </if>
+      <if test="record.detail != null" >
+        Detail = #{record.detail,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update location
+    set LocID = #{record.locid,jdbcType=INTEGER},
+      Longtitude = #{record.longtitude,jdbcType=DECIMAL},
+      Latitude = #{record.latitude,jdbcType=DECIMAL},
+      District = #{record.district,jdbcType=VARCHAR},
+      Street = #{record.street,jdbcType=VARCHAR},
+      Detail = #{record.detail,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.project.bean.Location" >
+    update location
+    <set >
+      <if test="longtitude != null" >
+        Longtitude = #{longtitude,jdbcType=DECIMAL},
+      </if>
+      <if test="latitude != null" >
+        Latitude = #{latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="district != null" >
+        District = #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="street != null" >
+        Street = #{street,jdbcType=VARCHAR},
+      </if>
+      <if test="detail != null" >
+        Detail = #{detail,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where LocID = #{locid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.project.bean.Location" >
+    update location
+    set Longtitude = #{longtitude,jdbcType=DECIMAL},
+      Latitude = #{latitude,jdbcType=DECIMAL},
+      District = #{district,jdbcType=VARCHAR},
+      Street = #{street,jdbcType=VARCHAR},
+      Detail = #{detail,jdbcType=VARCHAR}
+    where LocID = #{locid,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.project.dao.BorrowMapper" >
+  <resultMap id="BaseResultMap" type="com.example.project.bean.Borrow" >
+    <id column="BorrowID" property="borrowid" jdbcType="INTEGER" />
+    <result column="UID" property="uid" jdbcType="INTEGER" />
+    <result column="BID" property="bid" jdbcType="INTEGER" />
+    <result column="BorrowAt" property="borrowat" jdbcType="INTEGER" />
+    <result column="Renewal" property="renewal" jdbcType="INTEGER" />
+    <result column="BorrowTime" property="borrowtime" jdbcType="TIMESTAMP" />
+    <result column="DueTime" property="duetime" jdbcType="TIMESTAMP" />
+    <result column="ReturnTime" property="returntime" jdbcType="TIMESTAMP" />
+    <result column="Status" property="status" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    BorrowID, UID, BID, BorrowAt, Renewal, BorrowTime, DueTime, ReturnTime, Status
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.example.project.bean.BorrowExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from borrow
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from borrow
+    where BorrowID = #{borrowid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from borrow
+    where BorrowID = #{borrowid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.project.bean.BorrowExample" >
+    delete from borrow
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.project.bean.Borrow" >
+    insert into borrow (BorrowID, UID, BID, 
+      BorrowAt, Renewal, BorrowTime, 
+      DueTime, ReturnTime, Status
+      )
+    values (#{borrowid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{bid,jdbcType=INTEGER}, 
+      #{borrowat,jdbcType=INTEGER}, #{renewal,jdbcType=INTEGER}, #{borrowtime,jdbcType=TIMESTAMP}, 
+      #{duetime,jdbcType=TIMESTAMP}, #{returntime,jdbcType=TIMESTAMP}, #{status,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.project.bean.Borrow" >
+    insert into borrow
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="borrowid != null" >
+        BorrowID,
+      </if>
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="bid != null" >
+        BID,
+      </if>
+      <if test="borrowat != null" >
+        BorrowAt,
+      </if>
+      <if test="renewal != null" >
+        Renewal,
+      </if>
+      <if test="borrowtime != null" >
+        BorrowTime,
+      </if>
+      <if test="duetime != null" >
+        DueTime,
+      </if>
+      <if test="returntime != null" >
+        ReturnTime,
+      </if>
+      <if test="status != null" >
+        Status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="borrowid != null" >
+        #{borrowid,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="bid != null" >
+        #{bid,jdbcType=INTEGER},
+      </if>
+      <if test="borrowat != null" >
+        #{borrowat,jdbcType=INTEGER},
+      </if>
+      <if test="renewal != null" >
+        #{renewal,jdbcType=INTEGER},
+      </if>
+      <if test="borrowtime != null" >
+        #{borrowtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="duetime != null" >
+        #{duetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="returntime != null" >
+        #{returntime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.project.bean.BorrowExample" resultType="java.lang.Integer" >
+    select count(*) from borrow
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update borrow
+    <set >
+      <if test="record.borrowid != null" >
+        BorrowID = #{record.borrowid,jdbcType=INTEGER},
+      </if>
+      <if test="record.uid != null" >
+        UID = #{record.uid,jdbcType=INTEGER},
+      </if>
+      <if test="record.bid != null" >
+        BID = #{record.bid,jdbcType=INTEGER},
+      </if>
+      <if test="record.borrowat != null" >
+        BorrowAt = #{record.borrowat,jdbcType=INTEGER},
+      </if>
+      <if test="record.renewal != null" >
+        Renewal = #{record.renewal,jdbcType=INTEGER},
+      </if>
+      <if test="record.borrowtime != null" >
+        BorrowTime = #{record.borrowtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.duetime != null" >
+        DueTime = #{record.duetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.returntime != null" >
+        ReturnTime = #{record.returntime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null" >
+        Status = #{record.status,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update borrow
+    set BorrowID = #{record.borrowid,jdbcType=INTEGER},
+      UID = #{record.uid,jdbcType=INTEGER},
+      BID = #{record.bid,jdbcType=INTEGER},
+      BorrowAt = #{record.borrowat,jdbcType=INTEGER},
+      Renewal = #{record.renewal,jdbcType=INTEGER},
+      BorrowTime = #{record.borrowtime,jdbcType=TIMESTAMP},
+      DueTime = #{record.duetime,jdbcType=TIMESTAMP},
+      ReturnTime = #{record.returntime,jdbcType=TIMESTAMP},
+      Status = #{record.status,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.project.bean.Borrow" >
+    update borrow
+    <set >
+      <if test="uid != null" >
+        UID = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="bid != null" >
+        BID = #{bid,jdbcType=INTEGER},
+      </if>
+      <if test="borrowat != null" >
+        BorrowAt = #{borrowat,jdbcType=INTEGER},
+      </if>
+      <if test="renewal != null" >
+        Renewal = #{renewal,jdbcType=INTEGER},
+      </if>
+      <if test="borrowtime != null" >
+        BorrowTime = #{borrowtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="duetime != null" >
+        DueTime = #{duetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="returntime != null" >
+        ReturnTime = #{returntime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        Status = #{status,jdbcType=CHAR},
+      </if>
+    </set>
+    where BorrowID = #{borrowid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.project.bean.Borrow" >
+    update borrow
+    set UID = #{uid,jdbcType=INTEGER},
+      BID = #{bid,jdbcType=INTEGER},
+      BorrowAt = #{borrowat,jdbcType=INTEGER},
+      Renewal = #{renewal,jdbcType=INTEGER},
+      BorrowTime = #{borrowtime,jdbcType=TIMESTAMP},
+      DueTime = #{duetime,jdbcType=TIMESTAMP},
+      ReturnTime = #{returntime,jdbcType=TIMESTAMP},
+      Status = #{status,jdbcType=CHAR}
+    where BorrowID = #{borrowid,jdbcType=INTEGER}
+  </update>
+</mapper>

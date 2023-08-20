@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.project.dao.ResponsibleForMapper" >
+  <resultMap id="BaseResultMap" type="com.example.project.bean.ResponsibleFor" >
+    <id column="DutyID" property="dutyid" jdbcType="INTEGER" />
+    <result column="UID" property="uid" jdbcType="INTEGER" />
+    <result column="StationID" property="stationid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    DutyID, UID, StationID
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.example.project.bean.ResponsibleForExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from responsiblefor
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from responsiblefor
+    where DutyID = #{dutyid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from responsiblefor
+    where DutyID = #{dutyid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.project.bean.ResponsibleForExample" >
+    delete from responsiblefor
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.project.bean.ResponsibleFor" >
+    insert into responsiblefor (DutyID, UID, StationID
+      )
+    values (#{dutyid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{stationid,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.project.bean.ResponsibleFor" >
+    insert into responsiblefor
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dutyid != null" >
+        DutyID,
+      </if>
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="stationid != null" >
+        StationID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dutyid != null" >
+        #{dutyid,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="stationid != null" >
+        #{stationid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.project.bean.ResponsibleForExample" resultType="java.lang.Integer" >
+    select count(*) from responsiblefor
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update responsiblefor
+    <set >
+      <if test="record.dutyid != null" >
+        DutyID = #{record.dutyid,jdbcType=INTEGER},
+      </if>
+      <if test="record.uid != null" >
+        UID = #{record.uid,jdbcType=INTEGER},
+      </if>
+      <if test="record.stationid != null" >
+        StationID = #{record.stationid,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update responsiblefor
+    set DutyID = #{record.dutyid,jdbcType=INTEGER},
+      UID = #{record.uid,jdbcType=INTEGER},
+      StationID = #{record.stationid,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.project.bean.ResponsibleFor" >
+    update responsiblefor
+    <set >
+      <if test="uid != null" >
+        UID = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="stationid != null" >
+        StationID = #{stationid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where DutyID = #{dutyid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.project.bean.ResponsibleFor" >
+    update responsiblefor
+    set UID = #{uid,jdbcType=INTEGER},
+      StationID = #{stationid,jdbcType=INTEGER}
+    where DutyID = #{dutyid,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.project.dao.PublicationMapper" >
+  <resultMap id="BaseResultMap" type="com.example.project.bean.Publication" >
+    <id column="ISBN" property="isbn" jdbcType="VARCHAR" />
+    <result column="BnwID" property="bnwid" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="publish" property="publish" jdbcType="VARCHAR" />
+    <result column="language" property="language" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="pub_date" property="pubDate" jdbcType="DATE" />
+    <result column="class_id" property="classId" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.example.project.bean.Publication" extends="BaseResultMap" >
+    <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ISBN, BnwID, name, author, publish, language, price, pub_date, class_id
+  </sql>
+  <sql id="Blob_Column_List" >
+    introduction
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.example.project.bean.PublicationExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from publication
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.example.project.bean.PublicationExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from publication
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from publication
+    where ISBN = #{isbn,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from publication
+    where ISBN = #{isbn,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.project.bean.PublicationExample" >
+    delete from publication
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.project.bean.Publication" >
+    insert into publication (ISBN, BnwID, name, 
+      author, publish, language, 
+      price, pub_date, class_id, 
+      introduction)
+    values (#{isbn,jdbcType=VARCHAR}, #{bnwid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{author,jdbcType=VARCHAR}, #{publish,jdbcType=VARCHAR}, #{language,jdbcType=VARCHAR}, 
+      #{price,jdbcType=DECIMAL}, #{pubDate,jdbcType=DATE}, #{classId,jdbcType=INTEGER}, 
+      #{introduction,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.project.bean.Publication" >
+    insert into publication
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="isbn != null" >
+        ISBN,
+      </if>
+      <if test="bnwid != null" >
+        BnwID,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="author != null" >
+        author,
+      </if>
+      <if test="publish != null" >
+        publish,
+      </if>
+      <if test="language != null" >
+        language,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="pubDate != null" >
+        pub_date,
+      </if>
+      <if test="classId != null" >
+        class_id,
+      </if>
+      <if test="introduction != null" >
+        introduction,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="isbn != null" >
+        #{isbn,jdbcType=VARCHAR},
+      </if>
+      <if test="bnwid != null" >
+        #{bnwid,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="publish != null" >
+        #{publish,jdbcType=VARCHAR},
+      </if>
+      <if test="language != null" >
+        #{language,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="pubDate != null" >
+        #{pubDate,jdbcType=DATE},
+      </if>
+      <if test="classId != null" >
+        #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="introduction != null" >
+        #{introduction,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.project.bean.PublicationExample" resultType="java.lang.Integer" >
+    select count(*) from publication
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update publication
+    <set >
+      <if test="record.isbn != null" >
+        ISBN = #{record.isbn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bnwid != null" >
+        BnwID = #{record.bnwid,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.author != null" >
+        author = #{record.author,jdbcType=VARCHAR},
+      </if>
+      <if test="record.publish != null" >
+        publish = #{record.publish,jdbcType=VARCHAR},
+      </if>
+      <if test="record.language != null" >
+        language = #{record.language,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.pubDate != null" >
+        pub_date = #{record.pubDate,jdbcType=DATE},
+      </if>
+      <if test="record.classId != null" >
+        class_id = #{record.classId,jdbcType=INTEGER},
+      </if>
+      <if test="record.introduction != null" >
+        introduction = #{record.introduction,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update publication
+    set ISBN = #{record.isbn,jdbcType=VARCHAR},
+      BnwID = #{record.bnwid,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      author = #{record.author,jdbcType=VARCHAR},
+      publish = #{record.publish,jdbcType=VARCHAR},
+      language = #{record.language,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=DECIMAL},
+      pub_date = #{record.pubDate,jdbcType=DATE},
+      class_id = #{record.classId,jdbcType=INTEGER},
+      introduction = #{record.introduction,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update publication
+    set ISBN = #{record.isbn,jdbcType=VARCHAR},
+      BnwID = #{record.bnwid,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      author = #{record.author,jdbcType=VARCHAR},
+      publish = #{record.publish,jdbcType=VARCHAR},
+      language = #{record.language,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=DECIMAL},
+      pub_date = #{record.pubDate,jdbcType=DATE},
+      class_id = #{record.classId,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.project.bean.Publication" >
+    update publication
+    <set >
+      <if test="bnwid != null" >
+        BnwID = #{bnwid,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="publish != null" >
+        publish = #{publish,jdbcType=VARCHAR},
+      </if>
+      <if test="language != null" >
+        language = #{language,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="pubDate != null" >
+        pub_date = #{pubDate,jdbcType=DATE},
+      </if>
+      <if test="classId != null" >
+        class_id = #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="introduction != null" >
+        introduction = #{introduction,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ISBN = #{isbn,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.project.bean.Publication" >
+    update publication
+    set BnwID = #{bnwid,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      publish = #{publish,jdbcType=VARCHAR},
+      language = #{language,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      pub_date = #{pubDate,jdbcType=DATE},
+      class_id = #{classId,jdbcType=INTEGER},
+      introduction = #{introduction,jdbcType=LONGVARCHAR}
+    where ISBN = #{isbn,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.project.bean.Publication" >
+    update publication
+    set BnwID = #{bnwid,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      publish = #{publish,jdbcType=VARCHAR},
+      language = #{language,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      pub_date = #{pubDate,jdbcType=DATE},
+      class_id = #{classId,jdbcType=INTEGER}
+    where ISBN = #{isbn,jdbcType=VARCHAR}
+  </update>
+</mapper>
